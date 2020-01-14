@@ -1,0 +1,40 @@
+import pyautogui
+from bs4 import BeautifulSoup
+import requests
+
+
+
+def klikanie():
+    pyautogui.click(515, 1025)                                               #klik na chrome
+    pyautogui.moveTo(525, 50, duration=5)                                    #move na pasek
+    pyautogui.click(525, 50)                                                 #klik na pasek
+    pyautogui.hotkey('ctrl', 'a')                                            #zaznaczanie i usuwanie tego co już wpisane w pasek
+    pyautogui.keyDown('backspace')
+    pyautogui.write("https://belfer.uwm.edu.pl/glosuje/wmw", interval=0.05)  #szukamy stronki humana do głosowania na belfra
+    pyautogui.keyDown('enter')                                               #klikamy enter!
+    pyautogui.moveTo(820,360, duration=2)                                    #chwila czasu dla załadowania stronki
+
+def zupka():
+    r = requests.get("https://belfer.uwm.edu.pl/glosuje/wmw")       #pobiera sobie info ze stronki belfra
+    soup=BeautifulSoup(r.text,"html")                               #zupka się uruchamia
+    log = soup.find("button").text                                  #szukamy właściwego miejsca
+    if log == "Zaloguj się przez Facebook":                         #warunek dla clickera
+        pyautogui.click(820, 360)
+    else:
+        None
+
+
+input("Kiedy wszystko będzie gotowe wciśnij enter ")
+
+klikanie()
+
+zupka()
+
+
+
+
+
+
+
+
+
